@@ -1,9 +1,9 @@
 package com.kotlinspring.controller.controller
 
 import com.kotlinspring.controller.util.courseEntityList
-import com.kotlinspring.dto.CourseDto
-import com.kotlinspring.entity.Course
-import com.kotlinspring.repository.CourseRepository
+import com.kotlinspring.dto.BookDto
+import com.kotlinspring.entity.Book
+import com.kotlinspring.repository.BookRepository
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,7 +23,7 @@ class CourseControllerIntgTest {
     lateinit var webTestClient: WebTestClient
 
     @Autowired
-    lateinit var courseRepository: CourseRepository
+    lateinit var courseRepository: BookRepository
 
     @BeforeEach
     fun setup() {
@@ -36,7 +36,7 @@ class CourseControllerIntgTest {
     @Test
     fun addCourse() {
 
-        val courseDto = CourseDto(
+        val courseDto = BookDto(
             null,
             "Test Course",
             "Test Category"
@@ -48,7 +48,7 @@ class CourseControllerIntgTest {
             .bodyValue(courseDto)
             .exchange()
             .expectStatus().isCreated
-            .expectBody(CourseDto::class.java)
+            .expectBody(BookDto::class.java)
             .returnResult()
             .responseBody
 
@@ -64,7 +64,7 @@ class CourseControllerIntgTest {
             .uri("/v1/courses")
             .exchange()
             .expectStatus().isOk
-            .expectBodyList(CourseDto::class.java) // used to deal with array
+            .expectBodyList(BookDto::class.java) // used to deal with array
             .returnResult()
             .responseBody
 
@@ -73,13 +73,13 @@ class CourseControllerIntgTest {
 
     @Test
     fun updateCourses(){
-        val course =  Course(
+        val course =  Book(
             null,
             "Build RestFul APis using SpringBoot and Kotlin", "Development"
         )
 
         courseRepository.save(course)
-      val updatedCourseDto =  CourseDto(null,
+      val updatedCourseDto =  BookDto(null,
             "Build RestFul APis using SpringBoot and Kotlin1", "Development"
         )
 
@@ -89,7 +89,7 @@ class CourseControllerIntgTest {
             .bodyValue(updatedCourseDto)
             .exchange()
             .expectStatus().isOk
-            .expectBody(CourseDto::class.java)
+            .expectBody(BookDto::class.java)
             .returnResult()
             .responseBody
 
@@ -98,13 +98,13 @@ class CourseControllerIntgTest {
 
     @Test
     fun deleteCourses(){
-        val course =  Course(
+        val course =  Book(
             null,
             "Build RestFul APis using SpringBoot and Kotlin", "Development"
         )
 
         courseRepository.save(course)
-        val updatedCourseDto =  CourseDto(null,
+        val updatedCourseDto =  BookDto(null,
             "Build RestFul APis using SpringBoot and Kotlin1", "Development"
         )
 

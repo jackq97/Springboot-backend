@@ -1,18 +1,18 @@
 package com.kotlinspring.controller.util
 
-import com.kotlinspring.entity.Course
+import com.kotlinspring.entity.Book
 
 
 fun courseEntityList() = listOf(
-    Course(
+    Book(
         null,
         "Build RestFul APis using SpringBoot and Kotlin", "Development"
     ),
-    Course(null,
+    Book(null,
         "Build Reactive Microservices using Spring WebFlux/SpringBoot", "Development"
         ,
     ),
-    Course(null,
+    Book(null,
         "Wiremock for Java Developers", "Development" ,
     )
 )
