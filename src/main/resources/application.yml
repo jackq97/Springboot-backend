@@ -7,7 +7,7 @@ spring:
     #    username: sa
     #    password: password
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5438/courses
+    url: jdbc:postgresql://localhost:5438/books
     #    url: jdbc:postgresql://localhost:5432/courses
     username: postgres
     password: postgres

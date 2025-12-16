@@ -16,7 +16,9 @@ class UserService(
         return if (found != null) {
             userRepository.save(user)
             user
-        } else null
+        } else {
+            null
+        }
     }
 
     fun findByUUID(uuid: UUID): User? =

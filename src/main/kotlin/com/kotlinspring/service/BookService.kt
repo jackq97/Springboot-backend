@@ -8,11 +8,11 @@ import mu.KLogging
 import org.springframework.stereotype.Service
 
 @Service
-class BookService(val courseRepository: BookRepository) {
+class BookService(val bookRepository: BookRepository) {
 
     companion object : KLogging()
 
-    fun addCourse(courseDto: BookDto): BookDto {
+    fun addBook(courseDto: BookDto): BookDto {
         val courseEntity = courseDto.let {
             Book(
                 id = null,
@@ -20,7 +20,7 @@ class BookService(val courseRepository: BookRepository) {
                 category = it.category,
             )
         }
-        courseRepository.save(courseEntity)
+        bookRepository.save(courseEntity)
         logger.info { "Added new course: $courseEntity" }
         return courseEntity.let {
             BookDto(id = it.id,
@@ -30,37 +30,37 @@ class BookService(val courseRepository: BookRepository) {
         }
     }
 
-    fun retrieveAllCourses(): List<BookDto> {
-           return courseRepository.findAll().map {
+    fun retrieveAllBooks(): List<BookDto> {
+           return bookRepository.findAll().map {
                 BookDto(id = it.id, name = it.name, category = it.category    )
             }
     }
 
-    fun updateCourse(courseId: Int, courseDto: BookDto): BookDto {
-        val existingCourse = courseRepository.findById(courseId)
+    fun updateBook(bookId: Int, courseDto: BookDto): BookDto {
+        val existingCourse = bookRepository.findById(bookId)
         return if(existingCourse.isPresent) {
             existingCourse.get().let {
                 it.name = courseDto.name
                 it.category = courseDto.category
-                courseRepository.save(it)
+                bookRepository.save(it)
                 BookDto(id = it.id, name = courseDto.name, category = it.category)
             }
         } else {
             throw BookNotFoundException(
-                "No course with id $courseId exists."
+                "No course with id $bookId exists."
             )
         }
     }
 
-    fun deleteCourse(courseId: Int) {
-        val existingCourse = courseRepository.findById(courseId)
+    fun deleteBook(bookId: Int) {
+        val existingCourse = bookRepository.findById(bookId)
         if(existingCourse.isPresent) {
             existingCourse.get().let {
-                courseRepository.deleteById(courseId)
+                bookRepository.deleteById(bookId)
             }
         } else {
             throw BookNotFoundException(
-                "No course with id $courseId exists."
+                "No course with id $bookId exists."
             )
                 }
     }

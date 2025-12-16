@@ -7,7 +7,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "courses")
+@Table(name = "book")
 data class Book(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

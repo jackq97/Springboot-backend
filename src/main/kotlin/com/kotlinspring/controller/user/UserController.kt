@@ -3,6 +3,7 @@ package com.kotlinspring.controller.user
 import com.kotlinspring.dto.Role
 import com.kotlinspring.dto.User
 import com.kotlinspring.service.UserService
+import mu.KLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -18,8 +19,10 @@ import java.util.UUID
 
 @CrossOrigin
 @RestController
-@RequestMapping("v1/users")
+@RequestMapping("v1/user")
 class UserController(private val userService: UserService) {
+
+    companion object : KLogging()
 
     @PostMapping
     fun createUser(@RequestBody userRequest: UserRequest): UserResponse =
@@ -64,7 +67,7 @@ class UserController(private val userService: UserService) {
 
     private fun User.toResponse(): UserResponse =
         UserResponse(
-            uuid = this.id!!,
+            //uuid = null,
             email = this.email
         )
 }

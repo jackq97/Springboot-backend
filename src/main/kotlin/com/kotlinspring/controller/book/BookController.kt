@@ -15,30 +15,30 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/v1/courses")
-class BookController(val courseService: BookService) {
+@RequestMapping("/v1/books")
+class BookController(val bookService: BookService) {
 
     @CrossOrigin
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addCourse(@RequestBody courseDto: BookDto): BookDto {
-        return courseService.addCourse(courseDto)
+    fun addBook(@RequestBody bookDto: BookDto): BookDto {
+        return bookService.addBook(bookDto)
     }
 
     @CrossOrigin
     @GetMapping
-    fun retrieveAllCourses(): List<BookDto> = courseService.retrieveAllCourses()
+    fun retrieveAllBooks(): List<BookDto> = bookService.retrieveAllBooks()
 
     @CrossOrigin
-    @PutMapping("/{course_id}")
-    fun updateCourse(@PathVariable("course_id") courseId: Int, @RequestBody courseDto: BookDto): BookDto =
-        courseService.updateCourse(courseId, courseDto)
+    @PutMapping("/{book_id}")
+    fun updateBook(@PathVariable("book_id") bookId: Int, @RequestBody bookDto: BookDto): BookDto =
+        bookService.updateBook(bookId, bookDto)
 
     @CrossOrigin
-    @DeleteMapping("/{course_id}")
+    @DeleteMapping("/{book_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteCourse(@PathVariable("course_id") courseId: Int){
-        courseService.deleteCourse(courseId)
+    fun deleteCourse(@PathVariable("book_id") bookId: Int){
+        bookService.deleteBook(bookId)
     }
 
 }
