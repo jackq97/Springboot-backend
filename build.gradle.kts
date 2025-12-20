@@ -24,9 +24,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	//runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -37,9 +37,14 @@ dependencies {
 
     //test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("org.springframework.security:spring-security-test")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("io.mockk:mockk:1.10.4")
     testImplementation("com.ninja-squad:springmockk:3.0.1")
+
+	implementation("io.jsonwebtoken:jjwt-api:0.13.0")
+	implementation("io.jsonwebtoken:jjwt-jackson:0.13.0")
+	implementation("io.jsonwebtoken:jjwt-impl:0.13.0")
 }
 
 kotlin {
