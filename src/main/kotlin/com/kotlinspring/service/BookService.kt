@@ -12,8 +12,8 @@ class BookService(val bookRepository: BookRepository) {
 
     companion object : KLogging()
 
-    fun addBook(courseDto: BookDto): BookDto {
-        val courseEntity = courseDto.let {
+    fun addBook(bookDto: BookDto): BookDto {
+        val courseEntity = bookDto.let {
             Book(
                 id = null,
                 name = it.name,
@@ -36,14 +36,14 @@ class BookService(val bookRepository: BookRepository) {
             }
     }
 
-    fun updateBook(bookId: Int, courseDto: BookDto): BookDto {
+    fun updateBook(bookId: Int, bookDto: BookDto): BookDto {
         val existingCourse = bookRepository.findById(bookId)
         return if(existingCourse.isPresent) {
             existingCourse.get().let {
-                it.name = courseDto.name
-                it.category = courseDto.category
+                it.name = bookDto.name
+                it.category = bookDto.category
                 bookRepository.save(it)
-                BookDto(id = it.id, name = courseDto.name, category = it.category)
+                BookDto(id = it.id, name = bookDto.name, category = it.category)
             }
         } else {
             throw BookNotFoundException(
