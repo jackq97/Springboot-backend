@@ -40,5 +40,4 @@ class BookController(val bookService: BookService) {
     fun deleteCourse(@PathVariable("book_id") bookId: Int){
         bookService.deleteBook(bookId)
     }
-
 }
