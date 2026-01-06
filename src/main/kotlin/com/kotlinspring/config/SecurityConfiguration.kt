@@ -25,11 +25,11 @@ class SecurityConfiguration(
             .csrf { it.disable() }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("/v1/auth", "/api/v1/refresh", "/error")
+                    .requestMatchers("/v1/auth", "/v1/auth/refresh", "/error")
                     .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/v1/users")
+                    .requestMatchers(HttpMethod.POST, "/v1/users")
                     .permitAll()
-                    .requestMatchers("/api/v1/users**")
+                    .requestMatchers("/v1/users**")
                     .hasRole("ADMIN")
                     .anyRequest()
                     .fullyAuthenticated()
