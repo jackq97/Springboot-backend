@@ -23,14 +23,6 @@ class Configuration {
     @Bean
     fun encoder(): BCryptPasswordEncoder = BCryptPasswordEncoder()
 
-    /*@Bean
-    fun authenticationProvider(userRepository: UserRepository): AuthenticationProvider =
-        DaoAuthenticationProvider()
-            .also {
-                it.setUserDetailsService(userDetailsService(userRepository))
-                it.setPasswordEncoder(encoder())
-            }*/
-
     @Bean
     fun authenticationProvider(userRepository: UserRepository): AuthenticationProvider {
         val authProvider = DaoAuthenticationProvider(userDetailsService(userRepository))

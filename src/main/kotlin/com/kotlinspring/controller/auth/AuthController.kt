@@ -17,7 +17,9 @@ class AuthController(
 ) {
 
     @PostMapping
-    fun authenticate(@RequestBody authRequest: AuthenticationRequest): AuthenticationResponse =
+    fun authenticate(
+        @RequestBody authRequest: AuthenticationRequest
+    ): AuthenticationResponse =
         authenticationService.authentication(authRequest)
 
     @PostMapping("/refresh")
@@ -28,5 +30,6 @@ class AuthController(
         ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid refresh token")
 
     private fun String.mapToTokenResponse() = TokenResponse(
-        token = this)
+        token = this
+    )
 }

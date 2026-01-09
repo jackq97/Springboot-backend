@@ -42,6 +42,7 @@ class AuthenticationService(
 
     fun refreshAccessToken(token: String): String? {
             val extractedEmail = tokenService.extractEmail(token)
+
             return extractedEmail?.let { email ->
                 val currentUserDetails = userDetailsService.loadUserByUsername(email)
                 val refreshTokenUserDetails = refreshTokenRepository.findUserByToken(token)
