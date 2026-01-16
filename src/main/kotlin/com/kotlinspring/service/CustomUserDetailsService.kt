@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
-typealias ApplicationUser = com.kotlinspring.dto.User
+typealias ApplicationUser = com.kotlinspring.dto.UserDto
 
 @Service
 class CustomUserDetailsService(
@@ -15,7 +15,7 @@ class CustomUserDetailsService(
 ) : UserDetailsService {
 
     override fun loadUserByUsername(username: String): UserDetails {
-        return userRepository.findByEmail(username)
+        return userRepository.findUserDtosByEmail(username)
             ?.mapToUserDetails()
             ?: throw UsernameNotFoundException("Not Found!")
     }
@@ -24,7 +24,7 @@ class CustomUserDetailsService(
         return User.builder()
             .username(this.email)
             .password(this.password)
-            .roles(this.role.name)
+            .roles(this.role)
             .build()
     }
 

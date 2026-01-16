@@ -1,34 +1,53 @@
 package com.kotlinspring.service
 
-import com.kotlinspring.dto.User
+import com.kotlinspring.controller.user.UserRequest
+import com.kotlinspring.dto.UserDto
+import com.kotlinspring.entity.User
 import com.kotlinspring.repository.UserRepository
+import mu.KLogging
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
 class UserService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val bcryptEncoder: BCryptPasswordEncoder
 ) {
 
-    fun createUser(user: User): User? {
-            val found = userRepository.findByEmail(user.email)
+    companion object : KLogging()
 
-        return if (found != null) {
-            userRepository.save(user)
-            user
+    fun createUser(userDto: UserDto): UserDto? {
+        val userEntity = userDto.let {
+            User(UserRequest(
+                email = it.email,
+                password = bcryptEncoder.encode(it.password),
+            ))
+        }
+        val foundUser = userRepository.findUserDtosByEmail(userEntity.email)
+
+        if (foundUser == null) {
+            userRepository.save(userEntity)
+            logger.info { "Added new course: $userEntity" }
+            return userDto
         } else {
-            null
+            throw RuntimeException("User already exist.")
         }
     }
 
-    fun findByUUID(uuid: UUID): User? =
-        userRepository.findByUUID(uuid)
 
-    fun findByAll(): List<User> =
-        userRepository.findAll()
+    fun findByUUID(uuid: UUID): UserDto {
+        userRepository.findUserDtosById(uuid)?.let {
+            return it
+        }
+        throw RuntimeException(
+            "User with UUID $uuid not found."
+        )
+    }
 
-    fun deleteById(uuid: UUID): Boolean {
-        return userRepository.deletedByUUID(uuid = uuid)
+    fun findByAll(): List<String> {
+        val email = userRepository.findAll().map { it.email }
+        return email
     }
 
 }
