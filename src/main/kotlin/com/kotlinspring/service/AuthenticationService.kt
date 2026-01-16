@@ -3,7 +3,6 @@ package com.kotlinspring.service
 import com.kotlinspring.config.JwtProperties
 import com.kotlinspring.controller.auth.AuthenticationRequest
 import com.kotlinspring.controller.auth.AuthenticationResponse
-import com.kotlinspring.controller.auth.TokenResponse
 import com.kotlinspring.repository.RefreshTokenRepository
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -40,13 +39,13 @@ class AuthenticationService(
         )
     }
 
-    fun refreshAccessToken(token: String): String? {
-            val extractedEmail = tokenService.extractEmail(token)
+    fun refreshAccessToken(refreshToken: String): String? {
+            val extractedEmail = tokenService.extractEmail(refreshToken)
 
             return extractedEmail?.let { email ->
                 val currentUserDetails = userDetailsService.loadUserByUsername(email)
-                val refreshTokenUserDetails = refreshTokenRepository.findUserByToken(token)
-                if (!tokenService.isExpired(token) && currentUserDetails.username == refreshTokenUserDetails?.username){
+                val refreshTokenUserDetails = refreshTokenRepository.findUserByToken(refreshToken)
+                if (!tokenService.isExpired(refreshToken) && refreshTokenUserDetails?.username == currentUserDetails.username){
                     generateAccessToken(currentUserDetails)
                 }else{
                     null
@@ -54,13 +53,13 @@ class AuthenticationService(
             }
     }
 
+    private fun generateAccessToken(user: UserDetails) = tokenService.generate(
+        userDetails = user,
+        expirationDate = Date(System.currentTimeMillis() + jwtProperties.accessTokenExpiration)
+    )
+
     private fun generateRefreshToken(user: UserDetails) = tokenService.generate(
         userDetails = user,
         expirationDate = Date(System.currentTimeMillis() + jwtProperties.refreshTokenExpiration)
-    )
-
-    private fun generateAccessToken(user: UserDetails) = tokenService.generate(
-        user,
-        Date(System.currentTimeMillis() + jwtProperties.accessTokenExpiration)
     )
 }

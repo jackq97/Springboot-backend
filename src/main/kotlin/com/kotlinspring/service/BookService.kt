@@ -62,7 +62,7 @@ class BookService(val bookRepository: BookRepository) {
             throw BookNotFoundException(
                 "No course with id $bookId exists."
             )
-                }
+        }
     }
 
 }
